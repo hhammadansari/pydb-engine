@@ -119,10 +119,10 @@ if __name__ == '__main__':
     print(f"RECORDS_PER_PAGE = {RECORDS_PER_PAGE}")
 
     store = PagedStore('users.db')
-    store.insert(1, 'Alice')
-    store.insert(2, 'Bob')
-    store.insert(500, 'Carol')
-    store.insert(501, 'Dave')
+    store.insert(1, 'Hamoody')
+    store.insert(2, 'Balwindar')
+    store.insert(500, 'Fransis')
+    store.insert(501, 'Shams')
 
     print("Record at index 2:", store.get(2))
     print("Total pages on disk:", store.page_count())
