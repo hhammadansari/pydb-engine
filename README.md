@@ -1,10 +1,10 @@
 # PyDB
 
-A database engine built from scratch in Python — page storage, a B+ tree index, a SQL pipeline, and WAL crash recovery.
+A database engine built from scratch in Python: page storage, a B+ tree index, a SQL pipeline, and WAL crash recovery.
 
 ## Overview
 
-Educational database engine, built to learn database internals by implementing them. No concurrency, no optimizer beyond one heuristic, no network layer. What it does have: real page-based storage, a B+ tree with splitting and range scans, a parse → plan → execute SQL pipeline, and tested crash recovery.
+Educational database engine with real page-based storage, a B+ tree with splitting and range scans, a parse → plan → execute SQL pipeline, and tested crash recovery. What it does not have: No concurrency, no optimizer beyond one heuristic, no network layer.
 
 ## Architecture
 
@@ -35,9 +35,9 @@ flowchart TD
 
 ## How It Works
 
-**Storage:** fixed 24-byte records in 4096-byte pages. `page = index // RECORDS_PER_PAGE`, `slot = index % RECORDS_PER_PAGE` — no scanning to locate a row.
+**Storage:** fixed 24-byte records in 4096-byte pages. `page = index // RECORDS_PER_PAGE`, `slot = index % RECORDS_PER_PAGE` - no scanning to locate a row.
 
-**Index:** B+ tree, `id → row_index`. Internal nodes route; leaves hold data and link left-to-right for ranges. In-memory only — rebuilt from storage on startup.
+**Index:** B+ tree, `id → row_index`. Internal nodes route; leaves hold data and link left-to-right for ranges. In-memory only - rebuilt from storage on startup.
 
 **Query:** `query.py` parses SQL to an AST; the planner picks `index_lookup` for `id =` equality, else `full_scan`; execution is a `Project → Filter → Scan` generator chain.
 
@@ -50,20 +50,20 @@ from engine import Database
 
 db = Database()
 db.create_table('users', 'users.db')
-db.execute("INSERT INTO users VALUES (500, 'Carol')")
+db.execute("INSERT INTO users VALUES (1, 'Hamoody')")
 
-db.execute("SELECT name FROM users WHERE id = 500")
-# -> [{'name': 'Carol'}]
+db.execute("SELECT name FROM users WHERE id = 1")
+#-> [{'name': 'Hamoody'}]
 
-db.explain("SELECT name FROM users WHERE id = 500")  # 'index_lookup'
+db.explain("SELECT name FROM users WHERE id = 1")  #'index_lookup'
 ```
 
 ## Crash Recovery
 
-`demo_crash.py` logs a write, then skips applying it — simulating a crash between the two. On restart, the WAL/checkpoint mismatch is detected and the entry is replayed:
+`demo_crash.py` logs a write, then skips applying it, simulating a crash between the two. On restart, the WAL/checkpoint mismatch is detected and the entry is replayed:
 
 ```
-[recovery] 1 unapplied WAL entry found — replaying...
+[recovery] 1 unapplied WAL entry found -- replaying...
 SELECT * FROM users WHERE id = 999 -> [{'id': 999, 'name': 'Ghost'}]
 ```
 
