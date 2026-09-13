@@ -1,5 +1,5 @@
-# PyDB
 ![Tests](https://github.com/hhammadansari/pydb-engine/actions/workflows/tests.yml/badge.svg)
+# PyDB
 
 A database engine built from scratch in Python: page storage, a B+ tree index, a SQL pipeline, and WAL crash recovery.
 
