@@ -128,7 +128,7 @@ def test_planner_picks_index_lookup_for_id_equality():
 
 
 def test_planner_picks_full_scan_for_non_indexed_column():
-    ast = parse("SELECT * FROM users WHERE name = 'Bob'")
+    ast = parse("SELECT * FROM users WHERE name = 'Balwindar'")
     plan = make_plan(ast)
     assert plan['strategy'] == 'full_scan'
 
@@ -143,7 +143,7 @@ def test_engine_end_to_end(tmp_path):
     db.execute("INSERT INTO users VALUES (500, 'Fransis')")
 
     assert db.execute("SELECT name FROM users WHERE id = 500") == [{'name': 'Fransis'}]
-    assert db.execute("SELECT * FROM users WHERE name = 'Bob'") == [{'id': 2, 'name': 'Balwindar'}]
+    assert db.execute("SELECT * FROM users WHERE name = 'Balwindar'") == [{'id': 2, 'name': 'Balwindar'}]
     assert db.execute("SELECT * FROM users WHERE id = 42") == []
 
     all_rows = db.execute("SELECT * FROM users")
